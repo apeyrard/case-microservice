@@ -2,6 +2,18 @@
 
 This flask webservice provides a REST api to uppercase or lowercase strings.
 
+# Installation
+
+## Build docker image:
+```bash
+docker build -t apeyrard/case .
+```
+
+## Run image
+```bash
+docker run -e GUNICORN_WORKERS=4 -p 8000:8000 apeyrard/case
+```
+
 # Usage
 
 ## Lowercase
