@@ -3,6 +3,11 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 
+@app.route('/health-check')
+def health_check():
+    return jsonify({'healthy': True})
+
+
 @app.route('/v1/upper', methods=['POST'])
 def upper():
     content = request.get_json()
