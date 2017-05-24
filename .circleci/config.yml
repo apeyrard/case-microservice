@@ -15,9 +15,10 @@ jobs:
                     . venv/bin/activate
                     pip install -r requirements/dev.txt
             - run: 
-                name: Install AWS cli in a venv
+                name: Install dependencies
                 command: |
                     pip install --upgrade awscli
+                    apt-get update && apt-get install -y gettext-base
             - save_cache:
                 key: deps1-{{ .Branch }}-{{ checksum "requirements/dev.txt" }}
                 paths:
@@ -50,5 +51,4 @@ jobs:
             - run:
                 name: Push docker image
                 command: |
-                    echo $REPOSITORY_URL
                     ./.circleci/scripts/deploy.sh
