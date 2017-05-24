@@ -42,4 +42,9 @@ jobs:
                 name: Build docker image
                 command: |
                     docker build -t $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/$REGISTRY_REPO_NAME:$CIRCLE_SHA1 .
-                    docker images
+            # Push the docker image
+            - run:
+                name: Push docker image
+                command: |
+                    ls -l
+                    ./.circleci/scripts/deploy.sh
