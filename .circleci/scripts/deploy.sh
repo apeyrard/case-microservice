@@ -40,6 +40,8 @@ deploy_cluster() {
 }
 
 make_task_def(){
+   pwd
+   ls -l
    envsubst < task_definition.json
 }
 
