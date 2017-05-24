@@ -19,6 +19,7 @@ jobs:
                 command: |
                     pip install --upgrade awscli
                     apt-get update && apt-get install -y gettext-base
+                    apt-get install jq
             - save_cache:
                 key: deps1-{{ .Branch }}-{{ checksum "requirements/dev.txt" }}
                 paths:
