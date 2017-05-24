@@ -14,6 +14,10 @@ jobs:
                     python3 -m venv venv
                     . venv/bin/activate
                     pip install -r requirements/dev.txt
+            - run: 
+                name: Install AWS cli in a venv
+                command: |
+                    pip install --upgrade awscli
             - save_cache:
                 key: deps1-{{ .Branch }}-{{ checksum "requirements/dev.txt" }}
                 paths:
