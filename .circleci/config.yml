@@ -50,5 +50,5 @@ jobs:
             - run:
                 name: Push docker image
                 command: |
-                     echo $REPOSITORY_URL
+                    echo $REPOSITORY_URL
                     ./.circleci/scripts/deploy.sh
