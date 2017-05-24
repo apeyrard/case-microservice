@@ -18,13 +18,13 @@ jobs:
                 key: deps1-{{ .Branch }}-{{ checksum "requirements/dev.txt" }}
                 paths:
                     - "venv"
-            # run tests
             - run:
+                name: Run tests
                 command: |
                    . venv/bin/activate
                    python -m pytest --cov=Case
-            # run linter
             - run:
+                name: Run linter
                 command: |
                    . venv/bin/activate
                    flake8 Case/
