@@ -2,7 +2,7 @@
 
 # more bash-friendly output for jq
 JQ="jq --raw-output --exit-status"
-IMAGE_URL=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REGISTRY_REPO_NAME:$CIRCLE_SHA1
+export IMAGE_URL=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REGISTRY_REPO_NAME:$CIRCLE_SHA1
 
 configure_aws_cli(){
 	aws --version
