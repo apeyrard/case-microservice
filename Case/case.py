@@ -1,6 +1,14 @@
 from flask import Flask, request, jsonify
 
+import logging
+from logging.config import fileConfig
+
+
+fileConfig("logging.conf")
+logger = logging.getLogger(__name__)
+
 app = Flask(__name__)
+logger.warning("App started", extra={'foo': 'bar'})
 
 
 @app.route('/health-check')
