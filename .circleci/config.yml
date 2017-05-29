@@ -45,4 +45,4 @@ jobs:
                 name: Build docker image
                 command: |
                     TAG=0.1.$CIRCLE_BUILD_NUM
-                    docker build -t circleci/case-microservice:$TAG .
+                    docker build --build-arg CIRCLE_BRANCH=$CIRCLE_BRANCH --build-arg CIRCLE_SHA1=$CIRCLE_SHA1 -t circleci/case-microservice:$TAG .
