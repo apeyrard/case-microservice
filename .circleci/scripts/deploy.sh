@@ -19,27 +19,27 @@ deploy_cluster() {
     echo $CLUSER_NAME
     echo $SERVICE_NAME
 
-    if [[ $(aws ecs update-service --cluster $CLUSER_NAME --service $SERVICE_NAME --task-definition $revision | \
-                   $JQ '.service.taskDefinition') != $revision ]]; then
-        echo "Error updating service."
-        return 1
-    fi
+    #if [[ $(aws ecs update-service --cluster $CLUSER_NAME --service $SERVICE_NAME --task-definition $revision | \
+                   #$JQ '.service.taskDefinition') != $revision ]]; then
+        #echo "Error updating service."
+        #return 1
+    #fi
 
-    # wait for older revisions to disappear
-    # not really necessary, but nice for demos
-    for attempt in {1..30}; do
-        if stale=$(aws ecs describe-services --cluster $CLUSTER_NAME --services $SERVICE_NAME | \
-                       $JQ ".services[0].deployments | .[] | select(.taskDefinition != \"$revision\") | .taskDefinition"); then
-            echo "Waiting for stale deployments:"
-            echo "$stale"
-            sleep 5
-        else
-            echo "Deployed!"
-            return 0
-        fi
-    done
-    echo "Service update took too long."
-    return 1
+    ## wait for older revisions to disappear
+    ## not really necessary, but nice for demos
+    #for attempt in {1..30}; do
+        #if stale=$(aws ecs describe-services --cluster $CLUSTER_NAME --services $SERVICE_NAME | \
+                       #$JQ ".services[0].deployments | .[] | select(.taskDefinition != \"$revision\") | .taskDefinition"); then
+            #echo "Waiting for stale deployments:"
+            #echo "$stale"
+            #sleep 5
+        #else
+            #echo "Deployed!"
+            #return 0
+        #fi
+    #done
+    #echo "Service update took too long."
+    #return 1
 }
 
 make_task_def(){
