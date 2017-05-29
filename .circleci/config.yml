@@ -1,5 +1,6 @@
 version: 2
 jobs:   
+   
     build:
         working_directory: ~/case_microservice
         docker:
@@ -49,7 +50,10 @@ jobs:
                 command: |
                     docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REGISTRY_REPO_NAME:$CIRCLE_SHA1 .
             # Push the docker image
-            - run:
-                name: Push docker image
+            - deploy:
+                name: Push docker image and deploy
                 command: |
-                    ./.circleci/scripts/deploy.sh
+                    if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                      ./.circleci/scripts/deploy.sh
+                    fi
+
