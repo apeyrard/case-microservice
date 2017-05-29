@@ -11,17 +11,8 @@ def test_health_check():
     assert json.loads(response.data)["healthy"] is True
 
 
-def test_v1_lower():
-    response = app.post('/v1/lower',
-                        data='{"text": "Foo"}',
-                        headers={'Content-Type': 'application/json'})
+def test_build():
+    response = app.get('/build')
     assert response.status_code == 200
-    assert json.loads(response.data)["text"] == "foo"
-
-
-def test_v1_upper():
-    response = app.post('/v1/upper',
-                        data='{"text": "Foo"}',
-                        headers={'Content-Type': 'application/json'})
-    assert response.status_code == 200
-    assert json.loads(response.data)["text"] == "FOO"
+    assert json.loads(response.data)["branch"]
+    assert json.loads(response.data)["commit"]

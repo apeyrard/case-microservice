@@ -28,13 +28,18 @@ jobs:
             - run:
                 name: Run tests
                 command: |
-                   . venv/bin/activate
-                   python -m pytest --cov=Case
+                    . venv/bin/activate
+                    export SERVICE_BRANCH=$CIRCLE_BRANCH
+                    export SERVICE_COMMIT=$CIRCLE_SHA1
+                    mkdir -p /tmp/artifacts
+                    python -m pytest --cov=Case --cov-report html:/tmp/artifacts/cov_html --cov-branch
+            - store_artifacts:
+                path: /tmp/artifacts
             - run:
                 name: Run linter
                 command: |
-                   . venv/bin/activate
-                   flake8 Case/
+                    . venv/bin/activate
+                    flake8 Case/
             # build docker image
             - setup_remote_docker
             - run:
@@ -48,7 +53,7 @@ jobs:
             - run:
                 name: Build docker image
                 command: |
-                    docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REGISTRY_REPO_NAME:$CIRCLE_SHA1 .
+                    docker build --build-arg CIRCLE_BRANCH=$CIRCLE_BRANCH --build-arg CIRCLE_SHA1=$CIRCLE_SHA1 -t circleci/case-microservice:$TAG .
             # Push the docker image
             - deploy:
                 name: Push docker image and deploy
@@ -56,4 +61,3 @@ jobs:
                     if [ "${CIRCLE_BRANCH}" == "master" ]; then
                       ./.circleci/scripts/deploy.sh
                     fi
-

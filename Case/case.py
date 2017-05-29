@@ -1,4 +1,8 @@
-from flask import Flask, request, jsonify
+from flask import Flask
+
+from .api.routes.common_routes import api as api_common
+from .api.routes.v1.routes import api as api_v1
+from .api.routes.v2.routes import api as api_v2
 
 import logging
 from logging.config import fileConfig
@@ -10,36 +14,10 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 logger.warning("App started", extra={'foo': 'bar'})
 
-
-@app.route('/health-check')
-def health_check():
-    return jsonify({'healthy': True})
-
-
-@app.route('/v1/upper', methods=['POST'])
-def upper():
-    content = request.get_json()
-    if content is None:
-        text = ''
-    else:
-        try:
-            text = content['text'].upper()
-        except AttributeError:
-            text = ''
-    return jsonify({'text': text})
-
-
-@app.route('/v1/lower', methods=['POST'])
-def lower():
-    content = request.get_json()
-    if content is None:
-        text = ''
-    else:
-        try:
-            text = content['text'].lower()
-        except AttributeError:
-            text = ''
-    return jsonify({'text': text})
+# Registering blueprints for different versions of api
+app.register_blueprint(api_common)
+app.register_blueprint(api_v1, url_prefix='/v1')
+app.register_blueprint(api_v2, url_prefix='/v2')
 
 
 if __name__ == "__main__":
