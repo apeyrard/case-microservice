@@ -22,6 +22,8 @@ jobs:
                 name: Run tests
                 command: |
                     . venv/bin/activate
+                    export SERVICE_BRANCH=$CIRCLE_BRANCH
+                    export SERVICE_COMMIT=$CIRCLE_SHA1
                     mkdir -p /tmp/artifacts
                     python -m pytest --cov=Case --cov-report html:/tmp/artifacts/cov_html --cov-branch
             - store_artifacts:
