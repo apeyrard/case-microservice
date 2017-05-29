@@ -52,6 +52,8 @@ push_ecr_image(){
 }
 
 register_definition() {
+    echo $task_def
+    echo $family
 
     if revision=$(aws ecs register-task-definition --container-definitions "$task_def" --family $family | $JQ '.taskDefinition.taskDefinitionArn'); then
         echo "Revision: $revision"
