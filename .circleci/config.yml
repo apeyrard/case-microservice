@@ -53,7 +53,7 @@ jobs:
             - run:
                 name: Build docker image
                 command: |
-                  docker build --build-arg CIRCLE_BRANCH=$CIRCLE_BRANCH --build-arg CIRCLE_SHA1=$CIRCLE_SHA1 -t $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/$REGISTRY_REPO_NAME:$CIRCLE_SHA1 .
+                  docker build --build-arg CIRCLE_BRANCH=$CIRCLE_BRANCH --build-arg CIRCLE_SHA1=$CIRCLE_SHA1 -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REGISTRY_REPO_NAME:$CIRCLE_SHA1.
             # Push the docker image
             - deploy:
                 name: Push docker image and deploy
