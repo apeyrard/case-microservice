@@ -13,7 +13,7 @@ logger.warning("App started", extra={'foo': 'bar'})
 
 @app.route('/health-check')
 def health_check():
-    return jsonify({'healthy': True})
+    return jsonify({'healthy': 'ok'})
 
 
 @app.route('/v1/upper', methods=['POST'])
