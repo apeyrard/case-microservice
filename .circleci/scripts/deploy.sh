@@ -43,7 +43,7 @@ deploy_cluster() {
 }
 
 make_task_def(){
-   envsubst < task-definition.json
+  task_def=$(envsubst < task-definition.json)
 }
 
 push_ecr_image(){
