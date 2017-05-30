@@ -14,27 +14,31 @@ from pythonjsonlogger import jsonlogger
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
+
+# use filter to add commit and branch
+class AppFilter(logging.Filter):
+    def filter(self, record):
+        record.branch = os.environ["SERVICE_BRANCH"]
+        record.commit = os.environ["SERVICE_COMMIT"]
+        return True
+
+
+logger.addFilter(AppFilter())
+
 handler = logging.StreamHandler()
 handler.setLevel(logging.INFO)
 
 
-formatter = jsonlogger.JsonFormatter("%(asctime)s - %(levelname)s - "
-                                     "%(filename)s - %(funcName)s - %(lineno)s"
-                                     "- %(module)s - %(message)s")
+formatter = jsonlogger.JsonFormatter("%(asctime)s - %(levelname)s - %(branch)s"
+                                     " - %(commit)s - %(filename)s"
+                                     " - %(funcName)s - %(lineno)s"
+                                     " - %(module)s - %(message)s")
 
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-# use loggerAdapter to add commit and branch
-extra = {
-    "Branch": os.environ["SERVICE_BRANCH"],
-    "Commit": os.environ["SERVICE_COMMIT"]
-}
-logger = logging.LoggerAdapter(logger, extra)
-
 
 app = Flask(__name__)
-logger.warning("App started", extra={'foo': 'bar'})
 
 # Registering blueprints for different versions of api
 app.register_blueprint(api_common)
