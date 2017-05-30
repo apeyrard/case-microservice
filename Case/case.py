@@ -7,11 +7,31 @@ from .api.routes.v1.routes import api as api_v1
 from .api.routes.v2.routes import api as api_v2
 
 import logging
-from logging.config import fileConfig
+from pythonjsonlogger import jsonlogger
 
 
-fileConfig("logging.conf")
+# Creating and configuring logger
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+handler = logging.StreamHandler()
+handler.setLevel(logging.INFO)
+
+
+formatter = jsonlogger.JsonFormatter("%(asctime)s - %(levelname)s - "
+                                     "%(filename)s - %(funcName)s - %(lineno)s"
+                                     "- %(module)s - %(message)s")
+
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
+# use loggerAdapter to add commit and branch
+extra = {
+    "Branch": os.environ["SERVICE_BRANCH"],
+    "Commit": os.environ["SERVICE_COMMIT"]
+}
+logger = logging.LoggerAdapter(logger, extra)
+
 
 app = Flask(__name__)
 logger.warning("App started", extra={'foo': 'bar'})
