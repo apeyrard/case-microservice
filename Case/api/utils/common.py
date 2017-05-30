@@ -8,7 +8,7 @@ def upper():
     else:
         try:
             text = content['text'].upper()
-        except AttributeError:
+        except KeyError:
             text = ''
     return jsonify({'text': text})
 
@@ -20,6 +20,6 @@ def lower():
     else:
         try:
             text = content['text'].lower()
-        except AttributeError:
+        except KeyError:
             text = ''
     return jsonify({'text': text})
