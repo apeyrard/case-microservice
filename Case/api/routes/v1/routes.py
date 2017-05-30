@@ -22,6 +22,6 @@ def reverse():
     else:
         try:
             text = content['text'][0::-1]
-        except AttributeError:
+        except KeyError:
             text = ''
     return jsonify({'text': text})
