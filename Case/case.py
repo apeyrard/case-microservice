@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 
 import os
 
@@ -20,6 +20,40 @@ logger.warning("App started", extra={'foo': 'bar'})
 app.register_blueprint(api_common)
 app.register_blueprint(api_v1, url_prefix='/v1')
 app.register_blueprint(api_v2, url_prefix='/v2')
+
+
+# Log received requests
+@app.before_request
+def log_request():
+    debug_data = {
+            'form': request.form,
+            'args': request.args,
+            'values': request.values,
+            'cookies': request.cookies,
+            'headers': request.headers,
+            'data': request.data,
+            'files': request.files,
+            'environ': request.environ,
+            'method': request.method,
+            'url': request.url,
+            'blueprint': request.blueprint,
+            'endpoint': request.endpoint
+    }
+    info_data = {
+            'form': request.form,
+            'args': request.args,
+            'values': request.values,
+            'cookies': request.cookies,
+            'headers': request.headers,
+            'data': request.data,
+            'files': request.files,
+            'method': request.method,
+            'url': request.url,
+            'blueprint': request.blueprint,
+            'endpoint': request.endpoint
+    }
+    logger.debug('Request received', extra={'request': debug_data})
+    logger.info('Request received', extra={'request': info_data})
 
 
 # Set headers in after_request hook
