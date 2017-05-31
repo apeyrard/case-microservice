@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request
 
 
 def upper():
@@ -10,7 +10,7 @@ def upper():
             text = content['text'].upper()
         except KeyError:
             text = ''
-    return jsonify({'text': text})
+    return {'text': text}
 
 
 def lower():
@@ -22,4 +22,4 @@ def lower():
             text = content['text'].lower()
         except KeyError:
             text = ''
-    return jsonify({'text': text})
+    return {'text': text}

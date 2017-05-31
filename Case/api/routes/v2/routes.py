@@ -1,27 +1,32 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request
+from flask_restplus import Api, Resource
 from ...utils import common
 
-api = Blueprint('v2', __name__)
+blueprint = Blueprint('v2', __name__)
+api = Api(blueprint)
 
 
-@api.route('/lower', methods=['POST'])
-def lower():
-    return common.lower()
+@api.route('/lower')
+class Lower(Resource):
+    def post(self):
+        return common.lower()
 
 
-@api.route('/upper', methods=['POST'])
-def upper():
-    return common.upper()
+@api.route('/upper')
+class Upper(Resource):
+    def post(self):
+        return common.upper()
 
 
-@api.route('/reverse', methods=['POST'])
-def reverse():
-    content = request.get_json()
-    if content is None:
-        text = ''
-    else:
-        try:
-            text = content['text'][::-1]
-        except KeyError:
+@api.route('/reverse')
+class Reverse(Resource):
+    def post(self):
+        content = request.get_json()
+        if content is None:
             text = ''
-    return jsonify({'text': text})
+        else:
+            try:
+                text = content['text'][::-1]
+            except KeyError:
+                text = ''
+        return {'text': text}

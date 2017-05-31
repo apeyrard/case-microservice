@@ -1,16 +1,22 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint
+from flask_restplus import Api, Resource
 
 import os
 
-api = Blueprint('common', __name__)
+blueprint = Blueprint('common', __name__)
+api = Api(blueprint)
 
 
 @api.route('/health-check')
-def health_check():
-    return jsonify({'healthy': True})
+class HealthCheck(Resource):
+    def get(self):
+        return {'healthy': True}
 
 
 @api.route('/build')
-def build():
-    return jsonify({'branch': os.environ['SERVICE_BRANCH'],
-                    'commit': os.environ['SERVICE_COMMIT']})
+class Build(Resource):
+    def get(self):
+        return {
+            'branch': os.environ['SERVICE_BRANCH'],
+            'commit': os.environ['SERVICE_COMMIT']
+        }

@@ -2,9 +2,9 @@ from flask import Flask, request
 
 import os
 
-from .api.routes.common_routes import api as api_common
-from .api.routes.v1.routes import api as api_v1
-from .api.routes.v2.routes import api as api_v2
+from .api.routes.common_routes import blueprint as api_common
+from .api.routes.v1.routes import blueprint as api_v1
+from .api.routes.v2.routes import blueprint as api_v2
 
 import logging
 from pythonjsonlogger import jsonlogger
