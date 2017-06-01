@@ -1,6 +1,6 @@
-from flask import Blueprint, request
+from flask import Blueprint
 from flask_restplus import Api, Resource, fields
-from ...utils import common
+from ..core.utils import case_utils
 
 blueprint = Blueprint('v2', __name__)
 api = Api(blueprint)
@@ -14,26 +14,24 @@ text_payload = api.model('Resource', {
 class Lower(Resource):
     @api.expect(text_payload, validate=True)
     def post(self):
-        return common.lower()
+        return case_utils.lower()
 
 
 @api.route('/upper')
 class Upper(Resource):
     @api.expect(text_payload, validate=True)
     def post(self):
-        return common.upper()
+        return case_utils.upper()
 
 
 @api.route('/reverse')
 class Reverse(Resource):
     @api.expect(text_payload, validate=True)
     def post(self):
-        content = request.get_json()
-        if content is None:
-            text = ''
-        else:
-            try:
-                text = content['text'][::-1]
-            except KeyError:
-                text = ''
-        return {'text': text}
+        try:
+            text = api.payload["text"]
+        except KeyError:
+            return {'text': ''}
+        if text:
+            return {'text': text[::-1]}
+        return {'text': ''}

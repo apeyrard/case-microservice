@@ -6,7 +6,7 @@ app = case.app.test_client()
 
 
 def test_lower():
-    response = app.post('/v2/lower',
+    response = app.post('/api/v2/lower',
                         data='{"text": "Foo"}',
                         headers={'Content-Type': 'application/json'})
     assert response.status_code == 200
@@ -14,7 +14,7 @@ def test_lower():
 
 
 def test_upper():
-    response = app.post('/v2/upper',
+    response = app.post('/api/v2/upper',
                         data='{"text": "Foo"}',
                         headers={'Content-Type': 'application/json'})
     assert response.status_code == 200
@@ -22,7 +22,7 @@ def test_upper():
 
 
 def test_reverse():
-    response = app.post('/v2/reverse',
+    response = app.post('/api/v2/reverse',
                         data='{"text": "Foo"}',
                         headers={'Content-Type': 'application/json'})
     assert response.status_code == 200
