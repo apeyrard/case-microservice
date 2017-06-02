@@ -17,7 +17,10 @@ docker run -e GUNICORN_WORKERS=4 -p 8000:8000 apeyrard/case
 # Usage
 
 ## Lowercase
-curl -X POST -H "Content-Type: application/json" -d '{"text":"Foo"}' 127.0.0.1:5001/v1/lower
+curl -X POST -H "Content-Type: application/json" -d '{"text":"Foo"}' 127.0.0.1:5001/api/v1/lower
 
 ## Uppercase
-curl -X POST -H "Content-Type: application/json" -d '{"text":"Foo"}' 127.0.0.1:5001/v1/upper
+curl -X POST -H "Content-Type: application/json" -d '{"text":"Foo"}' 127.0.0.1:5001/api/v1/upper
+
+## Reverse
+curl -X POST -H "Content-Type: application/json" -d '{"text":"Foo"}' 127.0.0.1:5001/api/v2/reverse
