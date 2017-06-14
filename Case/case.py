@@ -6,7 +6,7 @@ from .apis.common_routes import blueprint as api_common
 from .apis.v1 import blueprint as api_v1
 from .apis.v2 import blueprint as api_v2
 
-from raven.contrib.flask import Sentry
+# from raven.contrib.flask import Sentry
 
 import logging
 from pythonjsonlogger import jsonlogger
@@ -46,7 +46,7 @@ app.register_blueprint(api_v1, url_prefix='/api/v1')
 app.register_blueprint(api_v2, url_prefix='/api/v2')
 
 # Configuring Sentry
-sentry = Sentry(app)
+# sentry = Sentry(app)
 
 
 # Log received requests

@@ -6,55 +6,19 @@ app = case.app.test_client()
 
 
 def test_lower():
-    response = app.post('/api/v1/lower',
-                        data='{"text": "Foo"}',
-                        headers={'Content-Type': 'application/json'})
+    response = app.get('/api/v1/lower?text=Foo')
     assert response.status_code == 200
-    assert json.loads(response.data)["text"] == "foo"
-    response = app.post('/api/v1/lower',
-                        data='{}',
-                        headers={'Content-Type': 'application/json'})
-    assert response.status_code == 200
-    assert json.loads(response.data)["text"] == ""
-    response = app.post('/api/v1/lower',
-                        data='{"bar": "Foo"}',
-                        headers={'Content-Type': 'application/json'})
-    assert response.status_code == 200
-    assert json.loads(response.data)["text"] == ""
+    assert json.loads(response.data.decode('utf-8'))["text"] == "foo"
 
 
 def test_upper():
-    response = app.post('/api/v1/upper',
-                        data='{"text": "Foo"}',
-                        headers={'Content-Type': 'application/json'})
+    response = app.get('/api/v1/upper?text=Foo')
     assert response.status_code == 200
-    assert json.loads(response.data)["text"] == "FOO"
-    response = app.post('/api/v1/upper',
-                        data='{}',
-                        headers={'Content-Type': 'application/json'})
-    assert response.status_code == 200
-    assert json.loads(response.data)["text"] == ""
-    response = app.post('/api/v1/upper',
-                        data='{"bar": "Foo"}',
-                        headers={'Content-Type': 'application/json'})
-    assert response.status_code == 200
-    assert json.loads(response.data)["text"] == ""
+    assert json.loads(response.data.decode('utf-8'))["text"] == "FOO"
 
 
 # This test is absurd, this is a feature
 def test_reverse():
-    response = app.post('/api/v1/reverse',
-                        data='{"text": "Foo"}',
-                        headers={'Content-Type': 'application/json'})
+    response = app.get('/api/v1/reverse?text=Foo')
     assert response.status_code == 200
-    assert json.loads(response.data)["text"] == "oF"
-    response = app.post('/api/v1/reverse',
-                        data='{}',
-                        headers={'Content-Type': 'application/json'})
-    assert response.status_code == 200
-    assert json.loads(response.data)["text"] == ""
-    response = app.post('/api/v1/reverse',
-                        data='{"foo": "bar"}',
-                        headers={'Content-Type': 'application/json'})
-    assert response.status_code == 200
-    assert json.loads(response.data)["text"] == ""
+    assert json.loads(response.data.decode('utf-8'))["text"] == "oF"

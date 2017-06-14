@@ -1,6 +1,5 @@
 from flask import Blueprint
-from flask_restplus import Api, Resource, fields
-from ..core.utils import case_utils
+from flask_restplus import Api, Resource, fields, reqparse
 
 blueprint = Blueprint('v2', __name__)
 api = Api(blueprint)
@@ -10,28 +9,34 @@ text_payload = api.model('Resource', {
 })
 
 
+parser = reqparse.RequestParser()
+parser.add_argument('text', required=True, type=str)
+
+
 @api.route('/lower')
 class Lower(Resource):
-    @api.expect(text_payload, validate=True)
-    def post(self):
-        return case_utils.lower()
+    @api.marshal_with(text_payload)
+    @api.expect(parser, validate=True)
+    def get(self):
+        text = parser.parse_args()['text']
+        return {'text': text.lower()}
 
 
 @api.route('/upper')
 class Upper(Resource):
-    @api.expect(text_payload, validate=True)
-    def post(self):
-        return case_utils.upper()
+    @api.marshal_with(text_payload)
+    @api.expect(parser, validate=True)
+    def get(self):
+        text = parser.parse_args()['text']
+        return {'text': text.upper()}
 
 
 @api.route('/reverse')
 class Reverse(Resource):
-    @api.expect(text_payload, validate=True)
-    def post(self):
-        try:
-            text = api.payload["text"]
-        except KeyError:
-            return {'text': ''}
+    @api.marshal_with(text_payload)
+    @api.expect(parser, validate=True)
+    def get(self):
+        text = parser.parse_args()['text']
         if text:
             return {'text': text[::-1]}
         return {'text': ''}
